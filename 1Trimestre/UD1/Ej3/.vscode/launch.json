@@ -22,7 +22,8 @@
             "name": "Launch App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "Ej3_642e89af"
+            "projectName": "Ej3_642e89af",
+            "args": ["12","15"]
         }
     ]
 }
