@@ -1,0 +1,68 @@
+Un hilo y falta algo para que funcione
+	-Por ejemplo falta el metodo run
+
+¿Que metodo hay que llamara para ejecutar un hilo? start
+
+Se puede hacer en una linea la creacion de un hilo y ejecutarlo
+
+¿Que es un shocket? SEGURA (Tema 2)
+
+Accept 
+	public static void main(String[] args) throws Exception {
+        ServerSocket servidor = new ServerSocket(9999);
+        while (true) {
+            
+            Socket miSocket = servidor.accept();      PUEDE QUITAR LA LINEA ESTA
+            DataInputStream flujoEntrada = new DataInputStream(miSocket.getInputStream());
+            String texto = flujoEntrada.readUTF();
+            System.out.println(texto);
+    
+            miSocket.close();
+        }
+    }
+
+Para crear un socket que se necesita   (url y puerto)
+
+Cuantos tipos de socket hay
+
+Para que sirve la funcion wait,notifyall
+
+Se le puede asignar prioridades a un hilo (si, pero no se ejecutan como queremos)
+
+Para que sirve el retranlog, se puede hacer condiciones (hemos hechos simple y se pueden hacer multiples)
+
+Enterder cada linea del codigo que hemos ido haciendo
+
+Estados de un proceso 
+
+Como crear procesos en java (dos formas)
+
+Podemos esperar a la finalizacion de un proceso (como)
+
+Que pasa cuando tienes un proceso dormido y lo interrumpes
+
+Puedo interrumpir un proceso y reinterrumpir dentro de una excepcion (si)
+
+Que es un demonio
+
+Formas de crear hilo (2 formas)
+
+Que es una seccion critica (MUY IMPORTANTE), puede poner un ejemplo para señalar 
+
+Como se puede hacer que los trozos de codigo se ejecuten solo por un proceso (individualment)
+
+Pagina 30 explicada cuando miraba lo que preguntar (lo ha explicado por encima)
+
+Pagina 41 (semaforo), que le falta a este semaforo para que funcione pasar al constructor el numero de hilos
+
+Funcion para soltar el sefamoforo 
+
+Lock y reetrant(lock and unlock) pagina 49
+
+
+
+
+
+
+
+
