@@ -63,13 +63,11 @@ public class Server {
 	
 			} else if (numeroOpcion == 2) {
 				mostrarFicheros();
-				buffederWriter.write("Escribe el nombre completo del fichero que quieres mostrar");
-				buffederWriter.newLine();
-				buffederWriter.flush();
+
 
 				String fichero = buffederReader.readLine();
 				System.out.println("El usuario a elegido el fichero " +fichero);
-				//mostrarContenido("Cuarto.txt");
+				mostrarContenido(fichero);
 			} else if (numeroOpcion == 3) {
 				misocket.close();
 			} else {
@@ -86,6 +84,7 @@ public class Server {
 		try (FileReader f = new FileReader(".\\Ficheros\\"+fichero)) {
 			BufferedReader b = new BufferedReader(f); 
 			while((cadena = b.readLine())!=null) { 
+				System.out.println(cadena);
 				buffederWriter.write(cadena);
 				buffederWriter.newLine();
 				buffederWriter.flush();
@@ -105,6 +104,7 @@ public class Server {
 			buffederWriter.newLine();
 			buffederWriter.flush();
 		}
+		
 	}
 
 	private static void menu() throws IOException {
