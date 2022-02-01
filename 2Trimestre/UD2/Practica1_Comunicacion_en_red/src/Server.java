@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -24,7 +25,7 @@ public class Server {
 		try {
 			ServerSocket servidor = new ServerSocket(9999);
 
-			while (true) {
+			
 
 				misocket = servidor.accept();
 
@@ -34,27 +35,9 @@ public class Server {
 				// Menu que se envia al cliente
 				menu();
 
-				// Leemos la opcion que a elgido el cliente
-				// todo: mirar a ver como leer un int
-				String opcion = buffederReader.readLine();
-				int numeroOpcion = Integer.parseInt(opcion);
-				System.out.println(numeroOpcion);
+				
 
-				if (numeroOpcion == 1) {
-					mostrarFicheros();
-
-				} else if (numeroOpcion == 2) {
-
-					// Falta la opcion de salir
-				} else if (numeroOpcion == 3) {
-					misocket.close();
-				} else {
-					buffederWriter.write("==      Opcion incorrecta           ==");
-					buffederWriter.newLine();
-					buffederWriter.flush();
-				}
-
-			}
+			
 
 			// misocket.close();
 
@@ -63,6 +46,55 @@ public class Server {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static void opcion() throws IOException {
+		
+		while (true) {
+			// Leemos la opcion que a elgido el cliente
+			String opcion = buffederReader.readLine();
+		//Pasamos la opcion elegida a int
+		int numeroOpcion = Integer.parseInt(opcion);
+		//Mostramos la opcion elegida por el cliente
+		System.out.println("El usuario a elegido la opcion " +opcion);
+			if (numeroOpcion == 1) {
+				mostrarFicheros();
+				menu();
+	
+			} else if (numeroOpcion == 2) {
+				mostrarFicheros();
+				buffederWriter.write("Escribe el nombre completo del fichero que quieres mostrar");
+				buffederWriter.newLine();
+				buffederWriter.flush();
+
+				String fichero = buffederReader.readLine();
+				System.out.println("El usuario a elegido el fichero " +fichero);
+				//mostrarContenido("Cuarto.txt");
+			} else if (numeroOpcion == 3) {
+				misocket.close();
+			} else {
+				buffederWriter.write("==      Opcion incorrecta           ==");
+				buffederWriter.newLine();
+				buffederWriter.flush();
+			}			
+		}
+
+	}
+
+	private static void mostrarContenido(String fichero) {
+		String cadena; 
+		try (FileReader f = new FileReader(".\\Ficheros\\"+fichero)) {
+			BufferedReader b = new BufferedReader(f); 
+			while((cadena = b.readLine())!=null) { 
+				buffederWriter.write(cadena);
+				buffederWriter.newLine();
+				buffederWriter.flush();
+			} 
+			b.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 	private static void mostrarFicheros() throws IOException {
@@ -97,6 +129,8 @@ public class Server {
 		buffederWriter.write("==  Elige una de las opcionces      ==");
 		buffederWriter.newLine();
 		buffederWriter.flush();
+
+		opcion();
 
 		/*
 		 * List<String> menu = new ArrayList<String>();

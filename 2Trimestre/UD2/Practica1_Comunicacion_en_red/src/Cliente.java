@@ -6,16 +6,19 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Cliente {
 
 	public static BufferedReader buffederReader;
 	public static BufferedWriter buffederWriter;
+	static Scanner sn = new Scanner(System.in);
+	
 
 	public static void main(String[] args) {
 
-		Scanner sn = new Scanner(System.in);
 		try {
 			// Socket socket = new Socket("192.168.50.61",9999);
 			Socket socket = new Socket("192.168.1.15", 9999);
@@ -27,18 +30,9 @@ public class Cliente {
 
 			// Muestra el menu enviado por el servidor
 			menu();
-
-			// Espera a que el usuario eliga un numeros
-			String opcion = sn.nextLine();
-			buffederWriter.write(opcion);
-			buffederWriter.newLine();
-			buffederWriter.flush();
+			
 
 
-			String contenido;
-			while ((contenido = buffederReader.readLine()) != null) {
-				System.out.println(contenido);
-			}
 
 
 
@@ -52,6 +46,58 @@ public class Cliente {
 
 	}
 
+	private static void opcion(Scanner sn) throws IOException {
+		// Espera a que el usuario eliga un numeros
+		String opcion = sn.nextLine();
+		System.out.println("Has elegido la opcion: " + opcion);
+		buffederWriter.write(opcion);
+		buffederWriter.newLine();
+		buffederWriter.flush();
+
+		//Pasamo la opcion elegida a int 
+		int nOpcion = Integer.parseInt(opcion);
+
+		//Si la opcion elegida es uno
+		if(nOpcion ==1){
+			mostrarFicheros();
+			
+
+		}else if (nOpcion==2) {
+			
+			mostrarFicheros();
+
+			buffederReader.readLine();
+
+
+			String fichero = sn.nextLine();
+			System.out.println("Has elegido el fichero: " + fichero);
+			buffederWriter.write(sn.nextLine());
+			buffederWriter.newLine();
+			buffederWriter.flush();
+			
+			//buffederWriter.write(fichero);
+			//buffederWriter.newLine();
+			//buffederWriter.flush();
+			/*String texto;
+			while ((texto = buffederReader.readLine()) != null) {
+				System.out.println(texto);
+			}*/
+			
+		} else if (nOpcion==3){
+
+		}
+		else {
+			System.out.println("Opcion incorrecta");	
+		}
+	}
+
+	private static void mostrarFicheros() throws IOException {
+		String contenido;
+		while ((contenido = buffederReader.readLine()) != null) {
+			System.out.println(contenido);
+		}
+	}
+
 	private static void menu() throws IOException {
 		// Escibre lo que lee del servidor
 		System.out.println(buffederReader.readLine());
@@ -61,6 +107,8 @@ public class Cliente {
 		System.out.println(buffederReader.readLine());
 		System.out.println(buffederReader.readLine());
 		System.out.println(buffederReader.readLine());
+
+		opcion(sn);
 
 		/*String contenido;
 		while ((contenido = buffederReader.readLine()) != null) {
