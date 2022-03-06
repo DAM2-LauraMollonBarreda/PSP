@@ -1,43 +1,94 @@
+
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class Cliente {
+public class Client {
 
-	public static BufferedReader buffederReader;
-	public static BufferedWriter buffederWriter;
+	private Socket socket;
+	private static BufferedReader buffederReader;
+	private static BufferedWriter buffederWriter;
+	private String nombreUsuario;
 	static Scanner sn = new Scanner(System.in);
 
-	public static void main(String[] args) {
-
+	public Client(Socket socket, String nombreUsuario) {
+		this.socket = socket;
+		this.nombreUsuario = nombreUsuario;
 		try {
-			// Socket socket = new Socket("192.168.50.61",9999);
-			Socket socket = new Socket("192.168.50.59", 9999);
-
-			// Para leer lo que dice el servidor
-			buffederReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			// Para escribir en el servidor
-			buffederWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-			// Muestra el menu enviado por el servidor
-			menu();
-
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.buffederReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			this.buffederWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void mandaMensaje () {
+		try {
+			buffederWriter.write(nombreUsuario);
+			buffederWriter.newLine();
+			buffederWriter.flush();
+			Scanner sc = new Scanner (System.in);
+			
+			while(socket.isConnected()) {
+				String mensaje = sc.nextLine();
+				
+				buffederWriter.write(nombreUsuario +": "+  mensaje);
+				buffederWriter.newLine();
+				buffederWriter.flush();
+				
+			}
+			
+			
+			
+		} catch (IOException e) {
+			cierraTodo(socket, buffederReader, buffederWriter);
+			// TODO: handle exception
+		}
+		
+	}
 
+	private void cierraTodo(Socket socket, BufferedReader buffederReader, BufferedWriter buffederWriter) {
+		try {
+			if (buffederReader != null) {
+				buffederReader.close();
+			}
+			if (buffederWriter != null) {
+				buffederWriter.close();
+			}
+			if (socket != null) {
+				socket.close();
+			}
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	
+
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner (System.in);
+		System.out.print("Introduce tu nick para entrar al chat: ");
+		String nick = sc.nextLine();
+		try {
+			Socket socket = new Socket("192.168.1.15", 9999);
+			Client cliente = new Client (socket, nick);
+
+			cliente.mandaMensaje();
+			menu();
+
+
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	private static void opcion(Scanner sn) throws IOException {
@@ -58,7 +109,6 @@ public class Cliente {
 
 		} else if (nOpcion == 2) {
 
-			mostrarFicheros();
 
 			System.out.println("Escribe el nombre completo del fichero que quieres mostrar");
 			String fichero = sn.nextLine();

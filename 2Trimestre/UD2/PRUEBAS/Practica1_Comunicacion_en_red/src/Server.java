@@ -62,7 +62,6 @@ public class Server {
 				menu();
 	
 			} else if (numeroOpcion == 2) {
-				mostrarFicheros();
 
 
 				String fichero = buffederReader.readLine();
