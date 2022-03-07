@@ -42,7 +42,7 @@ public class Cliente {
 		try {
 
 			// Abrir socket
-			try (Socket socket = new Socket("192.168.50.41", 9999)) {
+			try (Socket socket = new Socket("localhost", 9999)) {
 				// Enviar fichero
 				ObjectOutputStream flujoSalida = new ObjectOutputStream(socket.getOutputStream());
 				flujoSalida.writeObject(fichero);
